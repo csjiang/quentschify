@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
 export default class Speak extends React.Component {
   constructor(props) {
@@ -7,9 +7,11 @@ export default class Speak extends React.Component {
     this.state = {
       voice: null,
       voices: [],
-      speaking: false
+      speaking: false,
+      sameVoice: false
     };
     this.toggleSpeech = this.toggleSpeech.bind(this);
+    this.setVoice = this.setVoice.bind(this);
   }
 
   componentDidMount() {
@@ -19,35 +21,55 @@ export default class Speak extends React.Component {
     };
   }
 
-  toggleSpeech(voice) {
-    let match = this.state.voice === voice.name;
+  toggleSpeech() {
+    let { sameVoice, speaking, voice } = this.state;
 
-    if (match) {
-      if (this.state.speaking) {
-        speechSynthesis.pause();
-        this.setState({ speaking: false });
-      } else {
-        speechSynthesis.resume();
-        this.setState({ speaking: true });
-      }
+    if (speaking) {
+      speechSynthesis.pause();
+      speaking = false;
+      sameVoice = true;
     } else {
-      speechSynthesis.cancel();
-      let msg = new SpeechSynthesisUtterance(this.props.text);
-      msg.voice = voice;
-      speechSynthesis.speak(msg);
-      this.setState({ voice: voice.name, speaking: true });
+      if (sameVoice) {
+        speechSynthesis.resume();
+      } else {
+        let msg = new SpeechSynthesisUtterance(this.props.text);
+        msg.voice = voice;
+        speechSynthesis.speak(msg);
+      }
+      speaking = true;
+    }
+
+    this.setState({ speaking, sameVoice });
+  }
+
+  setVoice(e) {
+    let { speaking, voice, voices } = this.state;
+    const voiceName = e.target.value;
+    const match = voice && voice.name === voiceName;
+
+    if (!match) {
+      if (speaking) speechSynthesis.cancel();
+
+      let voice = voices.find(v => v.name === voiceName);
+      this.setState({ voice, speaking: false, sameVoice: false });
     }
   }
 
   render() {
     return (
       <div>
-      {
-        this.state.voices
-        .map((v, i) => (
-          <Button key={i} onClick={() => this.toggleSpeech(v)}>Hear {v.name} say it</Button>
-          ))
-      }
+        <FormGroup controlId="formControlsSelect">
+          <ControlLabel>Pick your voiscze</ControlLabel>
+          <FormControl componentClass="select" placeholder="vox populi" onChange={this.setVoice}>
+            {
+              this.state.voices
+              .map((v, i) => (
+                <option key={i} value={v.name}>{v.name}</option>
+                ))
+            }
+          </FormControl>
+        </FormGroup>
+        <Button onClick={this.toggleSpeech}>Szay it</Button>
       </div>
     )
   }

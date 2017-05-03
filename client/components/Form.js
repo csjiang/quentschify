@@ -69,8 +69,8 @@ export default class Form extends React.Component {
         {
           this.state.transformed
           ? <div>
-              <div>{this.state.transformed}</div>
               <Speak text={this.state.transformed}/>
+              <div>{this.state.transformed}</div>
             </div>
           : null
         }
