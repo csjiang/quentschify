@@ -6,10 +6,12 @@ import classnames from 'classnames/bind';
 // Using CSS Modules so we assign the styles to a variable
 import s from './App.styl';
 const cx = classnames.bind(s);
-import logo from './react-logo.png';
+import logo from './quentsch.png';
 
 // Favicon link is in the template, this just makes webpack package it up for us
 import './favicon.ico';
+
+import Form from './Form';
 
 export class Home extends React.Component {
   render() {
@@ -19,12 +21,13 @@ export class Home extends React.Component {
           <img src={logo} alt='React Logo' />
           <h1>Happy Birthday, Quentsch.</h1>
         </div>
-        <p>Why React static?</p>
+        <p>Why are you amazing?</p>
         <ul>
-          <li><span className={cx('hl')}>Dev</span> friendly</li>
-          <li><span className={cx('hl')}>User</span> friendly</li>
-          <li><span className={cx('hl')}>SEO</span> friendly</li>
+          <li><span className={cx('hl')}>Steak</span> friendly</li>
+          <li><span className={cx('hl')}>Dog</span> friendly</li>
+          <li><span className={cx('hl')}>Shade</span> friendly</li>
         </ul>
+        <Form/>
       </div>
     );
   }

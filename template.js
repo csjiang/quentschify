@@ -2,7 +2,7 @@
 const React = require('react');
 const T = require('prop-types');
 
-const Html = ({ title = 'Amazing Default Title', body, manifest }) => {
+const Html = ({ title = 'Happy Birthday!', body, manifest }) => {
   return (
     <html lang='en'>
       <head>
@@ -11,9 +11,8 @@ const Html = ({ title = 'Amazing Default Title', body, manifest }) => {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <title>{title}</title>
         <link rel='stylesheet' href={manifest['app.css']} />
-
-        {/* If you have a favicon file you can add by modifying the next line  */}
-        {/* <link rel='shortcut icon' href={manifest['favicon.ico']} /> */}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"/>
+        <link rel='shortcut icon' href={manifest['favicon.ico']} />
       </head>
       <body>
         <div id='root' dangerouslySetInnerHTML={{ __html: body }} />
