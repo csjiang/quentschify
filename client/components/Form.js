@@ -1,6 +1,9 @@
 import React from 'react';
 import { Row, Col, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
+
 import textTransform from '../../scripts/quentschify';
+
+import Speak from './Speak';
 
 export default class Form extends React.Component {
   constructor(props) {
@@ -12,7 +15,6 @@ export default class Form extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.speakWords = this.speakWords.bind(this);
     this.setRandomText = this.setRandomText.bind(this);
     this.cleanText = this.cleanText.bind(this);
   }
@@ -35,15 +37,6 @@ export default class Form extends React.Component {
     return text.replace(/(<([^>]+)>)/ig, '');
   }
 
-  speakWords(voice) {
-    if (speechSynthesis.speaking) {
-      speechSynthesis.cancel()
-    }
-    var msg = new SpeechSynthesisUtterance(this.state.transformed);
-    msg.voice = voice;
-    speechSynthesis.speak(msg);
-  }
-
   setRandomText() {
     fetch('http://hipsterjesus.com/api/')
     .then(response => response.json())
@@ -61,13 +54,14 @@ export default class Form extends React.Component {
               placeholder="Enter some text here to see it made festive."
               value={this.state.text}
               onChange={this.handleChange}
+              style={{ height: '50vh' }}
               />
           </FormGroup>
           <Col xs={3} md={3}>
             <Button onClick={this.handleSubmit}>Submitzque</Button>
           </Col>
           <Col xs={3} md={3}>
-            <Button onClick={this.setRandomText}>Need inspiration?</Button>
+            <Button onClick={this.setRandomText}>Need inszpiration?</Button>
           </Col>
         </Col>
 
@@ -76,11 +70,7 @@ export default class Form extends React.Component {
           this.state.transformed
           ? <div>
               <div>{this.state.transformed}</div>
-              {
-                speechSynthesis.getVoices().map((v, i) => (
-                  <Button key={i} onClick={() => this.speakWords(v)}>Hear {v.name} say it</Button>
-                  ))
-              }
+              <Speak text={this.state.transformed}/>
             </div>
           : null
         }

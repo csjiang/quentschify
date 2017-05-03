@@ -19,7 +19,7 @@ export class Home extends React.Component {
       <div className={cx('page')}>
         <div className={cx('siteTitle')}>
           <img src={logo} alt='React Logo' />
-          <h1>Happy Birthday, Quentsch.</h1>
+          <h1>Happy Birthdzay, Quentsch.</h1>
         </div>
         <p>Why are you amazing?</p>
         <ul>
