@@ -23,9 +23,10 @@ export class Home extends React.Component {
         </div>
         <p>Why are you amazing?</p>
         <ul>
-          <li><span className={cx('hl')}>Steak</span> friendly</li>
-          <li><span className={cx('hl')}>Dog</span> friendly</li>
-          <li><span className={cx('hl')}>Shade</span> friendly</li>
+          <li className={cx('white')}><span className={cx('hl')}>Steak</span> friendly</li>
+          <li className={cx('white')}><span className={cx('hl')}>Dog</span> friendly</li>
+          <li className={cx('white')}><span className={cx('hl')}>Shade</span> friendly</li>
+          <li style={{ display: 'none' }}><span>You're a good writer</span></li>
         </ul>
         <Form/>
       </div>
@@ -41,6 +42,15 @@ export class About extends React.Component {
           <h1>About Page</h1>
         </div>
         <p>Welcome to the about page...</p>
+        <p>There's nothing here.</p>
+        <p>Just a reminder that you're one of my dearest friends</p>
+        <p>And I'm so grateful we've had each other through thick and through thin</p>
+        <p>(but mostly quite thique)</p>
+        <p>I love you very mutsch!</p>
+        <p>I hope your each and every day is filled with dzjoy</p>
+        <p>of the kind that you fill me with on the reg!</p>
+        <p>So have a quite beautiful dzay, bicquetsnsch. You deserve it!</p>
+        <p>Ruv, Christine</p>
       </div>
     );
   }

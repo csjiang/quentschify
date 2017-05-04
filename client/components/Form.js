@@ -1,9 +1,13 @@
 import React from 'react';
-import { Row, Col, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
+import { Row, Col, FormGroup, FormControl, ControlLabel, Button, Well } from 'react-bootstrap';
 
 import textTransform from '../../scripts/quentschify';
 
 import Speak from './Speak';
+
+import classnames from 'classnames/bind';
+import s from './App.styl';
+const cx = classnames.bind(s);
 
 export default class Form extends React.Component {
   constructor(props) {
@@ -34,7 +38,7 @@ export default class Form extends React.Component {
   }
 
   cleanText(text) {
-    return text.replace(/(<([^>]+)>)/ig, '');
+    return text.replace(/(?:<([^>]+)>|&amp;)/ig, '');
   }
 
   setRandomText() {
@@ -45,10 +49,10 @@ export default class Form extends React.Component {
 
   render() {
     return (
-      <Row>
+      <Row style={{ paddingTop: '20px' }}>
         <Col xs={6} md={6}>
           <FormGroup controlId="formControlsTextarea">
-            <ControlLabel>Isn't this a useless birthday gift?</ControlLabel>
+            <ControlLabel className={cx('white')}>Ready for your useless birthdzay giftqhuet?</ControlLabel>
             <FormControl
               componentClass="textarea"
               placeholder="Enter some text here to see it made festive."
@@ -58,7 +62,7 @@ export default class Form extends React.Component {
               />
           </FormGroup>
           <Col xs={3} md={3}>
-            <Button onClick={this.handleSubmit}>Submitzque</Button>
+            <Button bsStyle="info" onClick={this.handleSubmit}>Submitzque</Button>
           </Col>
           <Col xs={3} md={3}>
             <Button onClick={this.setRandomText}>Need inszpiration?</Button>
@@ -70,9 +74,10 @@ export default class Form extends React.Component {
           this.state.transformed
           ? <div>
               <Speak text={this.state.transformed}/>
-              <div>{this.state.transformed}</div>
+              <div className={cx('white')} style={{ paddingTop: '20px'}}><small>You may have to wait a few seconds before the text-to-speech functionality loads.</small></div>
+              <Well style={{ marginTop: '20px' }}>{this.state.transformed}</Well>
             </div>
-          : null
+          : <div style={{ paddingTop: '20%' }} className="text-center">Your tecquest will appear here when it's readzy</div>
         }
         </Col>
       </Row>
