@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Button, FormGroup, ControlLabel, FormControl, Glyphicon } from 'react-bootstrap';
 
 export default class Speak extends React.Component {
   constructor(props) {
@@ -32,7 +32,8 @@ export default class Speak extends React.Component {
       if (sameVoice) {
         speechSynthesis.resume();
       } else {
-        let msg = new SpeechSynthesisUtterance(this.props.text);
+        window.speechSynthesis.cancel();
+        let msg = new window.SpeechSynthesisUtterance(this.props.text);
         msg.voice = voice;
         speechSynthesis.speak(msg);
       }
@@ -69,7 +70,9 @@ export default class Speak extends React.Component {
             }
           </FormControl>
         </FormGroup>
-        <Button onClick={this.toggleSpeech}>Szay it</Button>
+        <Button bsStyle="info" onClick={this.toggleSpeech}>
+          Szay it <Glyphicon glyph={ this.state.speaking ? "pause" : "play" } />
+        </Button>
       </div>
     )
   }
