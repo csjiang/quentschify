@@ -9,9 +9,10 @@ const Html = ({ title = 'Happy Birthday!', body, manifest }) => {
         <meta charSet='utf-8' />
         <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://maxcdn.bootstrapcdn.com; style-src 'unsafe-inline' 'self' https://maxcdn.bootstrapcdn.com" />
         <title>{title}</title>
-        <link rel='stylesheet' href={manifest['app.css']} />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"/>
+        <link rel='stylesheet' href={manifest['app.css']} />
         <link rel='shortcut icon' href={manifest['favicon.ico']} />
       </head>
       <body>
