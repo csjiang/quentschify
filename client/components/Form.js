@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, FormGroup, FormControl, ControlLabel, Button, Well } from 'react-bootstrap';
-
+import firebase from '../../scripts/firebase';
 import textTransform from '../../scripts/quentschify';
 
 import Speak from './Speak';
@@ -9,18 +9,19 @@ import classnames from 'classnames/bind';
 import s from './App.styl';
 const cx = classnames.bind(s);
 
+
 export default class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       text: '',
-      transformed: ''
+      transformed: '',
+      hipsum: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.setRandomText = this.setRandomText.bind(this);
-    this.cleanText = this.cleanText.bind(this);
   }
 
   handleChange(e) {
@@ -32,19 +33,22 @@ export default class Form extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.setState({
-      transformed: textTransform(this.state.text)
-    });
-  }
-
-  cleanText(text) {
-    return text.replace(/(?:<([^>]+)>|&amp;)/ig, '');
+    const transformed = textTransform(this.state.text);
+    this.setState({ transformed });
   }
 
   setRandomText() {
-    fetch('http://hipsterjesus.com/api/')
-    .then(response => response.json())
-    .then(({ text }) => this.setState({ text: this.cleanText(text) }))
+    if (this.state.hipsum.length) {
+      let randomHipsum = this.state.hipsum[Math.floor(Math.random() * this.state.hipsum.length)];
+      this.setState({ text: randomHipsum });
+    } else {
+      let ref = firebase.ref().child('hipsum');
+      ref.once('value', (data) => {
+        let results = data.val();
+        let hipsum = results.map(e => e.hipsum);
+        this.setState({ hipsum }, this.setRandomText);
+      });
+    }
   }
 
   render() {
@@ -75,7 +79,7 @@ export default class Form extends React.Component {
           ? <div>
               <Speak text={this.state.transformed}/>
               <div className={cx('white')} style={{ paddingTop: '20px'}}><small>You may have to wait a few seconds before the text-to-speech functionality loads.</small></div>
-              <Well style={{ marginTop: '20px' }}>{this.state.transformed}</Well>
+              <Well style={{ marginTop: '20px', color: '#333'}}>{this.state.transformed}</Well>
             </div>
           : <div style={{ paddingTop: '20%' }} className="text-center">Your tecquest will appear here when it's readzy</div>
         }
