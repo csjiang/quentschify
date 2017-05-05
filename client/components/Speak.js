@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Button, FormGroup, ControlLabel, FormControl, Glyphicon } from 'react-bootstrap';
 
 import classnames from 'classnames/bind';
 import s from './App.styl';
@@ -36,6 +36,7 @@ export default class Speak extends React.Component {
       if (sameVoice) {
         window.speechSynthesis.resume();
       } else {
+        window.speechSynthesis.cancel();
         let msg = new window.SpeechSynthesisUtterance(this.props.text);
         msg.voice = voice;
         window.speechSynthesis.speak(msg);
@@ -73,7 +74,8 @@ export default class Speak extends React.Component {
             }
           </FormControl>
         </FormGroup>
-        <Button bsStyle="info" onClick={this.toggleSpeech}>Szay it</Button>
+        <Button bsStyle="info" onClick={this.toggleSpeech}>
+        Szay it <Glyphicon glyph={ this.state.speaking ? "pause" : "play" } /></Button>
       </div>
     )
   }
