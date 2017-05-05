@@ -1,5 +1,9 @@
 import React from 'react';
-import { Button, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Button, FormGroup, ControlLabel, FormControl, Glyphicon } from 'react-bootstrap';
+
+import classnames from 'classnames/bind';
+import s from './App.styl';
+const cx = classnames.bind(s);
 
 export default class Speak extends React.Component {
   constructor(props) {
@@ -15,8 +19,8 @@ export default class Speak extends React.Component {
   }
 
   componentDidMount() {
-    speechSynthesis.onvoiceschanged = () => {
-      let voices = speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = () => {
+      let voices = window.speechSynthesis.getVoices();
       this.setState({ voices });
     };
   }
@@ -25,16 +29,17 @@ export default class Speak extends React.Component {
     let { sameVoice, speaking, voice } = this.state;
 
     if (speaking) {
-      speechSynthesis.pause();
+      window.speechSynthesis.pause();
       speaking = false;
       sameVoice = true;
     } else {
       if (sameVoice) {
-        speechSynthesis.resume();
+        window.speechSynthesis.resume();
       } else {
-        let msg = new SpeechSynthesisUtterance(this.props.text);
+        window.speechSynthesis.cancel();
+        let msg = new window.SpeechSynthesisUtterance(this.props.text);
         msg.voice = voice;
-        speechSynthesis.speak(msg);
+        window.speechSynthesis.speak(msg);
       }
       speaking = true;
     }
@@ -48,7 +53,7 @@ export default class Speak extends React.Component {
     const match = voice && voice.name === voiceName;
 
     if (!match) {
-      if (speaking) speechSynthesis.cancel();
+      if (speaking) window.speechSynthesis.cancel();
 
       let voice = voices.find(v => v.name === voiceName);
       this.setState({ voice, speaking: false, sameVoice: false });
@@ -59,7 +64,7 @@ export default class Speak extends React.Component {
     return (
       <div>
         <FormGroup controlId="formControlsSelect">
-          <ControlLabel>Pick your voiscze</ControlLabel>
+          <ControlLabel className={cx('white')}>Pick your voiscze</ControlLabel>
           <FormControl componentClass="select" placeholder="vox populi" onChange={this.setVoice}>
             {
               this.state.voices
@@ -69,7 +74,8 @@ export default class Speak extends React.Component {
             }
           </FormControl>
         </FormGroup>
-        <Button onClick={this.toggleSpeech}>Szay it</Button>
+        <Button bsStyle="info" onClick={this.toggleSpeech}>
+        Szay it <Glyphicon glyph={ this.state.speaking ? "pause" : "play" } /></Button>
       </div>
     )
   }

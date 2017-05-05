@@ -1,6 +1,6 @@
-#Quentschify 
+# Quentschify 
 
-##A tiny little React client-side app made as a birthday gift for my friend Daniel. 
+## A tiny little React client-side app made as a birthday gift for my friend Daniel. 
 
 - Increases the festiveness of any random text entered 
 - Autofills text with hipster ipsum thanks to [HipsterJesus API](http://hipsterjesus.com/) 
